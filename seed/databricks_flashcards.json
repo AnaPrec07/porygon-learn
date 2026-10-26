@@ -1,0 +1,686 @@
+{
+ "plan": "Databricks fundamentals",
+ "description": "Starter deck imported from your Databricks Flashcards page.",
+ "cards": [
+  {
+   "topic": "Lakehouse",
+   "q": "What is a data lakehouse?",
+   "a": "A data management system that combines the benefits of data lakes and data warehouses."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What is a data lakehouse used for?",
+   "a": "Scalable storage and processing for ML and BI without maintaining isolated systems for each workload. It helps establish a single source of truth, eliminate redundant costs, and ensure data freshness."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What is the Databricks lakehouse built on?",
+   "a": "Apache Spark, which runs a massively scalable engine on compute resources decoupled from storage."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "Name the two key technologies the Databricks lakehouse adds beyond Spark.",
+   "a": "Delta Lake (an optimized storage layer with ACID transactions and schema enforcement) and Unity Catalog (unified, fine-grained governance for data and AI)."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What are the three stages of the lakehouse data flow?",
+   "a": "Data ingestion, data processing/curation/integration, and data serving."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What happens in the ingestion layer?",
+   "a": "Batch or streaming data arrives in various formats and lands in raw form. Files are converted to Delta tables with schema enforcement checking for missing or unexpected data. Unity Catalog registers the tables and tracks lineage."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What happens in the processing, curation, and integration stage?",
+   "a": "Data is verified, cleansed, and refined. Data scientists and ML practitioners combine data or create features. Cleansed data is reorganized into tables designed for business needs."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "Why does schema-on-write plus Delta schema evolution matter?",
+   "a": "You can change the processing layer without necessarily rewriting the downstream logic that serves end users."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What does the serving layer provide?",
+   "a": "Clean, enriched data for ML, data engineering, and BI/reporting. Unified governance lets you trace lineage back to the single source of truth. Layouts are optimized for different tasks."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "Name some capabilities of a Databricks lakehouse.",
+   "a": "Real-time processing, data integration, schema evolution, data transformations, analysis and reporting, ML and AI, versioning and lineage, governance, data sharing, and operational analytics."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What does Data Quality Monitoring track in operational analytics?",
+   "a": "Data quality metrics, model quality metrics, and drift."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What are a data warehouse's typical strengths and limits?",
+   "a": "Strong BI performance and clean structured data, but queries can take minutes or hours, the design avoids conflicts between concurrent queries, it suits data that rarely changes, and proprietary formats often limit ML support."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What is a data lake good and bad at?",
+   "a": "Good: storing and processing any data in any format cheaply and efficiently. Bad for BI: the data is unvalidated, so organizations usually use lakes for data science and ML rather than BI reporting."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "What three things does the data lakehouse provide?",
+   "a": "Open, direct access to data in standard formats; indexing protocols optimized for ML and data science; and low query latency with high reliability for BI and advanced analytics."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "How does a lakehouse let different use cases share the same data?",
+   "a": "It combines an optimized metadata layer with validated data stored in standard formats in cloud object storage, so teams work from the same data on one platform."
+  },
+  {
+   "topic": "Lakehouse",
+   "q": "Where does the lakehouse page point for implementation best practices?",
+   "a": "To the Databricks well-architected framework introduction."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What is the medallion architecture?",
+   "a": "A data design pattern that organizes data into layers (bronze, silver, gold) and incrementally improves structure and quality as data moves through them. Also called a multi-hop architecture."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What do bronze, silver, and gold mean?",
+   "a": "Bronze = raw, silver = validated, gold = enriched."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What happens in the bronze layer?",
+   "a": "Raw data ingestion."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What happens in the silver layer?",
+   "a": "Data cleaning and validation."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What happens in the gold layer?",
+   "a": "Dimensional modeling and aggregation."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "Who is the intended user of the bronze layer?",
+   "a": "Data engineers, data operations, and compliance and audit teams."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "Who are the intended users of the silver layer?",
+   "a": "Data engineers, data analysts (for a refined dataset that keeps detail), and data scientists building models."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "Who are the intended users of the gold layer?",
+   "a": "Business analysts and BI developers, data scientists and ML engineers, executives and decision makers, and operational teams."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "Is following the medallion architecture required?",
+   "a": "No. It is a recommended best practice, not a requirement."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What characteristics does bronze data have?",
+   "a": "It keeps the source's raw state, is appended incrementally, serves as the single source of truth, supports reprocessing and auditing, and can come from streaming or batch sources such as object storage, message buses, or federated systems."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "Why should most bronze fields be stored as string, VARIANT, or binary?",
+   "a": "To protect against unexpected schema changes so data isn't dropped. Metadata columns like the source file name can be added for provenance."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "Should you write directly from ingestion into silver tables?",
+   "a": "No. Databricks doesn't recommend it because schema changes or corrupt records in sources cause failures. Build silver tables by reading from bronze."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "How should reads from bronze be configured?",
+   "a": "Most as streaming reads, assuming append-only sources. Batch reads should be reserved for small datasets such as small dimension tables."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What must the silver layer always include?",
+   "a": "At least one validated, non-aggregated representation of each record."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What operations are performed in silver tables?",
+   "a": "Schema enforcement, null handling, deduplication, handling out-of-order and late-arriving data, data quality checks, schema evolution, type casting, and joins."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "How can you model nested or semi-structured data in silver?",
+   "a": "Use the VARIANT type, JSON strings, structs, maps and arrays, or flatten the schema or normalize it into multiple tables."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What defines the gold layer?",
+   "a": "Highly refined, aggregated, filtered data tailored for analytics, dashboards, ML, and applications. It aligns with business logic and maps to business functions."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "Why might an organization create multiple gold layers?",
+   "a": "Because gold models a business domain, so different groups such as HR, finance, and IT may each need their own."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "Why create materialized views in gold?",
+   "a": "To preaggregate frequently used measures like weekly bookings and revenue, so analysts don't have to recreate them."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "How is ingestion frequency related to cost and latency?",
+   "a": "Continuous incremental ingestion is higher cost and lower latency. Triggered incremental ingestion is lower cost and higher latency. Batch with manual incremental ingestion is lower cost but has the highest latency."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What is the docs' example of the medallion architecture?",
+   "a": "A business operations team with bronze, silver, and gold schemas in an ops catalog. Gold holds datasets like customer_spending, account_performance, sales_pipeline_summary, and business_summary."
+  },
+  {
+   "topic": "Medallion architecture",
+   "q": "What is the bronze-layer example source list in the docs?",
+   "a": "Cloud storage, Kafka, and Salesforce. No cleanup or validation happens in bronze."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "What role does Apache Spark play in Databricks?",
+   "a": "It is the technology powering compute clusters and SQL warehouses."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "Name the Spark language APIs Databricks supports.",
+   "a": "PySpark (Python), Pandas API on Spark, SparkR and sparklyr (R), and Scala for Spark."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "What is the Pandas API on Spark?",
+   "a": "Pandas syntax with Spark's scalability for distributed data processing."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "What is Structured Streaming?",
+   "a": "A near real-time processing engine in Spark."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "What is Spark MLlib?",
+   "a": "Spark's library for distributed machine learning, with integration into popular ML frameworks."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "What is Spark Connect, and how does it differ from Spark Classic?",
+   "a": "The docs compare Spark Connect and Spark Classic, highlighting key differences in execution and analysis behavior that can cause unexpected behavior or performance issues when migrating code."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "Where do you set Spark configuration properties on Databricks?",
+   "a": "In the compute environment, to customize settings and optimize performance."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "What is the Spark UI used for?",
+   "a": "Performance tuning, debugging, and cost optimization of Spark jobs."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "What is the Spark API options reference?",
+   "a": "A single place to look up DataFrameReader, DataFrameWriter, and related API options."
+  },
+  {
+   "topic": "Apache Spark",
+   "q": "Where do you start learning Spark DataFrames on Databricks?",
+   "a": "The tutorial on loading and transforming data with Spark DataFrames in Python, R, or Scala. There's also a PySpark basics guide."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is Delta Lake?",
+   "a": "An open-source storage layer that extends Parquet data files with a file-based transaction log for ACID transactions and scalable metadata handling. It is the foundation for tables in a Databricks lakehouse."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "Is Delta Lake the default table format on Databricks?",
+   "a": "Yes. Unless otherwise specified, all tables on Databricks are Delta Lake tables."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "Who developed the Delta Lake protocol?",
+   "a": "Databricks originally developed it and continues to contribute to the open-source project."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "Is the Delta transaction log readable by other systems?",
+   "a": "Yes. It has a well-defined open protocol that any system can use to read the log."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "How does Delta Lake relate to Apache Spark?",
+   "a": "It is fully compatible with Spark APIs and was built for tight integration with Structured Streaming. You can use one copy of data for batch and streaming."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What does each write to a Delta table create?",
+   "a": "A new table version. You can review changes in the transaction log and query previous versions."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is schema enforcement?",
+   "a": "Delta Lake validates schema on write, so all data written to a table must match the schema you set."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is schema evolution in Delta Lake?",
+   "a": "Updating a table's schema manually or automatically without rewriting the data."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What does column mapping enable?",
+   "a": "Renaming or dropping columns without rewriting data."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is the MERGE operation used for?",
+   "a": "Upserting data into a Delta table."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is selective overwrite?",
+   "a": "Overwriting subsets of data based on filters and partitions."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What are liquid clustering's benefits?",
+   "a": "It simplifies data layout and optimizes query performance without partitioning."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is data skipping?",
+   "a": "Skipping irrelevant files at query time using column statistics, Z-order, and optimized data layout. It reduces the number of files scanned."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What does OPTIMIZE do?",
+   "a": "Compacts small data files to improve query performance."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What does VACUUM do?",
+   "a": "Removes stale data files to reduce storage costs."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is auto time-to-live (auto TTL)?",
+   "a": "It automatically deletes rows from managed tables after a configurable time period."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is the change data feed?",
+   "a": "A feature that tracks row-level changes between versions of a Delta Lake or Apache Iceberg v3 table."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What do generated columns do?",
+   "a": "Automatically generate column values using user-specified functions."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What constraints does Databricks support on tables?",
+   "a": "Enforced integrity constraints, plus informational primary key, foreign key, and unique constraints."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "Where are Delta table data and metadata stored?",
+   "a": "In cloud object storage."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What does DESCRIBE DETAIL show?",
+   "a": "A table's configurations and metadata."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "Should you interact directly with Delta data and transaction log files?",
+   "a": "No. Databricks recommends avoiding direct interaction to prevent corrupting tables."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What is the Databricks way to ingest files incrementally from cloud storage?",
+   "a": "Auto Loader, which ingests files as they arrive. For idempotent SQL loads, use COPY INTO."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What tool can convert Parquet or Apache Iceberg tables to Delta Lake?",
+   "a": "Convert to Delta Lake for one-time conversion. Clone to Delta Lake for incremental cloning."
+  },
+  {
+   "topic": "Delta Lake",
+   "q": "What does Delta Lake's medallion usage look like?",
+   "a": "Databricks encourages a medallion architecture where data is cleaned and enriched across a series of tables, with Lakeflow pipelines simplifying ETL."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is Unity Catalog?",
+   "a": "The unified governance layer for data and AI built into Databricks. When enabled, it operates beneath every data and AI interaction in the workspace."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What does Unity Catalog do automatically?",
+   "a": "Enforces access control when you query a table or call a model, tracks lineage, and logs activity for auditing."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "How do you work with Unity Catalog objects?",
+   "a": "Through Catalog Explorer, SQL, the Databricks CLI, and REST APIs."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "Which workspaces have Unity Catalog enabled automatically?",
+   "a": "Workspaces created after November 8, 2023. Older workspaces need to be upgraded."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "Is Unity Catalog available as open source?",
+   "a": "Yes. There is an open-source implementation with a public GitHub repo."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is a securable object?",
+   "a": "Any object on which you can grant permissions to users, service principals, or groups."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "Which data and AI assets follow the catalog.schema.object namespace?",
+   "a": "Tables, views, volumes, functions, models, and services (model services and MCP services)."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is the difference between managed and external tables and volumes?",
+   "a": "Managed: Unity Catalog handles governance and the underlying file storage lifecycle. External: Unity Catalog handles governance only."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What objects sit directly under the metastore?",
+   "a": "Storage credentials, external locations, connections, and shares."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is Unity Catalog's access control toolkit?",
+   "a": "Privileges, attribute-based policies, row and column filters, and workspace bindings."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is Catalog Explorer?",
+   "a": "The Databricks UI for discovering and managing data and AI assets registered in Unity Catalog."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What does lineage cover in Unity Catalog?",
+   "a": "How data and AI assets connect, from source data through to models, services, and dashboards."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "How does Unity Catalog support auditing?",
+   "a": "Through the audit log system table, which keeps a complete record of data access and system activity."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is data classification in Unity Catalog?",
+   "a": "Automatically classifying and tagging sensitive data in the catalog."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is data quality monitoring?",
+   "a": "Built-in profiling and alerts that track data health and catch anomalies before they reach downstream consumers."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is OpenSharing?",
+   "a": "The open protocol Databricks uses to securely share live data and AI assets across organizations and clouds."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What is AI governance in Databricks?",
+   "a": "Governing AI assets and AI traffic using Unity Catalog and AI Gateway."
+  },
+  {
+   "topic": "Unity Catalog",
+   "q": "What do the Unity Catalog best practices and governance guides cover?",
+   "a": "Unity Catalog best practices, the data governance overview, and an AI governance guide for setting up governance of AI assets, traffic, and service behavior."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "What is Databricks SQL?",
+   "a": "A cloud data warehouse built on lakehouse architecture. It runs directly on your data lake, supports ANSI SQL with Delta Lake extensions, and doesn't require moving your data."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "What runs Databricks SQL?",
+   "a": "SQL warehouses."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "Name the Databricks SQL interfaces and tools.",
+   "a": "SQL editor, notebooks attached to SQL warehouses, Jobs, dashboards, metric views, alerts, ETL, and the REST API."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "What are metric views?",
+   "a": "A semantic layer for defining business metrics with consistent calculations that can be reused across queries and dashboards."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "How does Databricks SQL handle ETL?",
+   "a": "You define and refresh streaming tables and materialized views directly in Databricks SQL for incremental ETL pipelines."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "What monitoring tools does Databricks SQL provide?",
+   "a": "Query history (past runs and resource usage), query profile (execution plan and bottlenecks), and query performance insights (automatic recommendations)."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "What can alerts do?",
+   "a": "Monitor query results, evaluate conditions, and deliver notifications automatically."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "What can you build with AI/BI dashboards?",
+   "a": "Interactive dashboards with AI-assisted authoring to share insights across the organization."
+  },
+  {
+   "topic": "Databricks SQL",
+   "q": "Where is the SQL language reference?",
+   "a": "In the SQL language manual, alongside the Databricks SQL release notes."
+  },
+  {
+   "topic": "Architecture & frameworks",
+   "q": "What is the Databricks well-architected framework?",
+   "a": "Architectural best practices for a secure, reliable, efficient, interoperable, and cost-effective Databricks platform."
+  },
+  {
+   "topic": "Architecture & frameworks",
+   "q": "What is the scope of Databricks?",
+   "a": "The building blocks of the Databricks Data + AI Platform and how they integrate with your systems."
+  },
+  {
+   "topic": "Architecture & frameworks",
+   "q": "What are guiding principles?",
+   "a": "Ground rules that define the vision and influence data, analytics, and AI architecture decisions."
+  },
+  {
+   "topic": "Architecture & frameworks",
+   "q": "What are Databricks reference architectures?",
+   "a": "Blueprints showing recommended Databricks setup and cloud integration, available as 11 x 17 PDFs."
+  },
+  {
+   "topic": "Architecture & frameworks",
+   "q": "What does the Databricks deployment guide cover?",
+   "a": "Step-by-step procedures across 9 phases, from account setup to a production-ready platform, monitoring, and disaster recovery."
+  },
+  {
+   "topic": "Account & workspaces",
+   "q": "What is a Databricks account?",
+   "a": "The top-level construct for managing Databricks across an organization: identity and access, workspace creation across regions, Unity Catalog metastores, and usage (billing, compliance, policies)."
+  },
+  {
+   "topic": "Account & workspaces",
+   "q": "What is a workspace?",
+   "a": "The collaboration environment where users run compute workloads such as ingestion, interactive exploration, scheduled jobs, and ML training."
+  },
+  {
+   "topic": "Account & workspaces",
+   "q": "Can an account contain multiple workspaces or metastores?",
+   "a": "Yes. An account can contain multiple workspaces and multiple Unity Catalog metastores."
+  },
+  {
+   "topic": "Account & workspaces",
+   "q": "What identity features are managed at the account level?",
+   "a": "Users, groups, service principals, SCIM provisioning, and SSO configuration."
+  },
+  {
+   "topic": "Account & workspaces",
+   "q": "How many workspaces can one metastore link to?",
+   "a": "A single metastore can link to multiple workspaces in the same region, giving each the same data view."
+  },
+  {
+   "topic": "Control & compute planes",
+   "q": "What are the two planes of Databricks architecture?",
+   "a": "The control plane and the compute plane."
+  },
+  {
+   "topic": "Control & compute planes",
+   "q": "What lives in the control plane?",
+   "a": "Backend services Databricks manages in your Databricks account, including the web application. It is not in your cloud account."
+  },
+  {
+   "topic": "Control & compute planes",
+   "q": "Where is data processed?",
+   "a": "In the compute plane, which is either serverless or classic."
+  },
+  {
+   "topic": "Control & compute planes",
+   "q": "Where do serverless compute resources run?",
+   "a": "In a serverless compute plane inside your Databricks account, in the same AWS region as your workspace's classic compute plane."
+  },
+  {
+   "topic": "Control & compute planes",
+   "q": "Where do classic compute resources run?",
+   "a": "In your AWS account, in each workspace's virtual network."
+  },
+  {
+   "topic": "Control & compute planes",
+   "q": "Why does the classic compute plane have natural isolation?",
+   "a": "Because it runs in each customer's own AWS account."
+  },
+  {
+   "topic": "Control & compute planes",
+   "q": "How is customer data protected in serverless compute?",
+   "a": "Serverless compute runs inside a workspace network boundary with multiple security layers that isolate different customers and add network controls between clusters for the same customer."
+  },
+  {
+   "topic": "Workspace architecture",
+   "q": "What is the workspace storage bucket?",
+   "a": "The storage bucket associated with classic workspaces. It lives in your AWS account."
+  },
+  {
+   "topic": "Workspace architecture",
+   "q": "How does storage work in serverless workspaces?",
+   "a": "It uses default storage, a fully managed location for internal workspace system data and Unity Catalog data assets. You can also connect your own cloud storage."
+  },
+  {
+   "topic": "Workspace architecture",
+   "q": "How do classic and serverless workspaces differ in storage?",
+   "a": "Classic workspaces require your own S3 bucket and prefix. Serverless workspaces use Databricks-managed default storage."
+  },
+  {
+   "topic": "Workspace storage",
+   "q": "What are the two categories of workspace storage data?",
+   "a": "Workspace file system data (assets users create in the UI) and workspace system data (generated internally by Databricks features). Both are separate from your own data objects."
+  },
+  {
+   "topic": "Workspace storage",
+   "q": "Name examples of workspace file system data.",
+   "a": "Notebooks, SQL queries and dashboards, alerts, Repos, libraries (.whl, .jar), Python files, YAML configs, and other small files."
+  },
+  {
+   "topic": "Workspace storage",
+   "q": "Name examples of workspace system data.",
+   "a": "SQL query and cached results, job run results, notebook revisions, SQL query plans for observability, and cluster logs."
+  },
+  {
+   "topic": "Workspace storage",
+   "q": "Why is workspace system data stored in cloud storage?",
+   "a": "It is too large for memory or databases, or it needs to persist beyond a single compute resource's lifetime."
+  },
+  {
+   "topic": "Workspace storage",
+   "q": "Should you delete or modify the workspace storage bucket?",
+   "a": "No. If it's deleted, the workspace cannot be recovered."
+  },
+  {
+   "topic": "DBFS",
+   "q": "What is DBFS?",
+   "a": "The Databricks File System, a distributed file system accessible under the dbfs:/ namespace."
+  },
+  {
+   "topic": "DBFS",
+   "q": "Is DBFS the same as workspace system data?",
+   "a": "No. DBFS root is user-accessible, while workspace system data is used internally by Databricks features."
+  },
+  {
+   "topic": "DBFS",
+   "q": "What is the status of DBFS root and DBFS mounts?",
+   "a": "Legacy and possibly disabled in your workspace. Using them is deprecated and not recommended."
+  },
+  {
+   "topic": "Quick recall",
+   "q": "What is the three-level namespace for a table?",
+   "a": "catalog.schema.table."
+  },
+  {
+   "topic": "Quick recall",
+   "q": "Which format is the default for Databricks tables?",
+   "a": "Delta Lake."
+  },
+  {
+   "topic": "Quick recall",
+   "q": "What two technologies make the lakehouse work with Spark?",
+   "a": "Delta Lake and Unity Catalog."
+  },
+  {
+   "topic": "Quick recall",
+   "q": "Which layer should analysts query most often?",
+   "a": "The gold layer, which is aggregated and aligned with business needs."
+  },
+  {
+   "topic": "Quick recall",
+   "q": "Which layer is for raw data, and which is for validated data?",
+   "a": "Bronze is raw. Silver is validated and cleaned."
+  },
+  {
+   "topic": "Quick recall",
+   "q": "Which feature lets you upsert into Delta tables?",
+   "a": "MERGE."
+  },
+  {
+   "topic": "Quick recall",
+   "q": "Which feature removes stale files to cut storage costs?",
+   "a": "VACUUM."
+  },
+  {
+   "topic": "Quick recall",
+   "q": "What is the Databricks SQL compute called?",
+   "a": "SQL warehouses."
+  }
+ ]
+}

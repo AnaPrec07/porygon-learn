@@ -1,0 +1,24 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "S3VectorsForPorygonLearn",
+      "Effect": "Allow",
+      "Action": [
+        "s3vectors:CreateVectorBucket", "s3vectors:GetVectorBucket",
+        "s3vectors:CreateIndex", "s3vectors:GetIndex",
+        "s3vectors:PutVectors", "s3vectors:GetVectors", "s3vectors:QueryVectors", "s3vectors:DeleteVectors"
+      ],
+      "Resource": [
+        "arn:aws:s3vectors:REGION:ACCOUNT_ID:bucket/my-porygon-vectors",
+        "arn:aws:s3vectors:REGION:ACCOUNT_ID:bucket/my-porygon-vectors/index/*"
+      ]
+    },
+    {
+      "Sid": "OptionalBedrock",
+      "Effect": "Allow",
+      "Action": ["bedrock:InvokeModel", "bedrock:Converse"],
+      "Resource": "*"
+    }
+  ]
+}
